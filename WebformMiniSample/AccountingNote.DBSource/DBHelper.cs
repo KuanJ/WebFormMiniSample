@@ -46,6 +46,7 @@ namespace AccountingNote.DBSource
                 {
                     comm.Parameters.AddRange(list.ToArray());
 
+
                     conn.Open();
                     var reader = comm.ExecuteReader();
 
