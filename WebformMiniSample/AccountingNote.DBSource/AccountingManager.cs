@@ -1,18 +1,21 @@
-﻿using System;
+﻿using AccountingNote.DBSource;
+using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace AccountingNote.DBSource
+namespace AccountingNote.SystemAdmin
 {
     public class AccountingManager
     {
-        /// <summary> 查詢流水帳清單 </summary>
-        /// <param name="userID"></param>
-        /// <returns></returns>
+        //private static string GetConnecionString()
+        //{
+        //    string val = ConfigurationManager.ConnectionStrings["DafaultConnection"].ConnectionString;
+        //    return val;
+        //}
+
+
         public static DataTable GetAccountingList(string userID)
         {
             string connStr = DBHelper.GetConnectionString();
@@ -25,7 +28,7 @@ namespace AccountingNote.DBSource
                         CreateDate
                     FROM Accounting
                     WHERE UserID = @userID
-                ";
+";
 
             List<SqlParameter> list = new List<SqlParameter>();
             list.Add(new SqlParameter("@userID", userID));
@@ -34,6 +37,7 @@ namespace AccountingNote.DBSource
             {
                 return DBHelper.ReadDataTable(connStr, dbCommand, list);
             }
+
             catch (Exception ex)
             {
                 Logger.WriteLog(ex);
@@ -41,10 +45,10 @@ namespace AccountingNote.DBSource
             }
         }
 
+        
 
-        /// <summary> 查詢流水帳 </summary>
+        /// <summary>查詢流水帳</summary>
         /// <param name="id"></param>
-        /// <param name="userID"></param>
         /// <returns></returns>
         public static DataRow GetAccounting(int id, string userID)
         {
@@ -58,25 +62,39 @@ namespace AccountingNote.DBSource
                         CreateDate,
                         Body
                     FROM Accounting
-                    WHERE id = @id AND UserID = @userID";
-
-            List<SqlParameter> list = new List<SqlParameter>();
-            list.Add(new SqlParameter("@id", id));
-            list.Add(new SqlParameter("@userID", userID));
-
-            try
+                    WHERE id = @id AND UserID = @userID;
+";
+            using (SqlConnection conn = new SqlConnection(connStr))
             {
-                return DBHelper.ReadDataRow(connStr, dbCommand, list);
-            }
-            catch (Exception ex)
-            {
-                Logger.WriteLog(ex);
-                return null;
+                using (SqlCommand comm = new SqlCommand(dbCommand, conn))
+                {
+                    comm.Parameters.AddWithValue("@id", id);
+                    comm.Parameters.AddWithValue("@userID", userID);
+
+                    try
+                    {
+                        conn.Open();
+                        var reader = comm.ExecuteReader();
+
+                        DataTable dt = new DataTable();
+                        dt.Load(reader);
+
+                        if (dt.Rows.Count == 0)
+                            return null;
+
+                        return dt.Rows[0];
+                    }
+                    catch (Exception ex)
+                    {
+                        Logger.WriteLog(ex);
+                        return null;
+                    }
+
+                }
             }
         }
 
-
-        /// <summary> 建立流水帳 </summary>
+        /// <summary>建立流水帳</summary>
         /// <param name="userID"></param>
         /// <param name="caption"></param>
         /// <param name="amount"></param>
@@ -84,37 +102,35 @@ namespace AccountingNote.DBSource
         /// <param name="body"></param>
         public static void CreatAccounting(string userID, string caption, int amount, int actType, string body)
         {
-            // <<<<< check input >>>>>
-            if (amount < 0 || amount > 1000000)
+            if (amount < 0 || amount > 100000)
                 throw new ArgumentException("Amount must between 0 and 1,000,000 .");
 
             if (actType < 0 || actType > 1)
                 throw new ArgumentException("ActType must be 0 or 1.");
-            // <<<<< check input >>>>>
 
             string connStr = DBHelper.GetConnectionString();
             string dbCommand =
-                $@" INSERT INTO [dbo].[Accounting]
+                $@" INSERT INTO  [dbo].[Accounting]
                     (
-                        UserID
-                        ,Caption
-                        ,Amount
-                        ,ActType
-                        ,CreateDate
-                        ,Body
+                        UserID,
+                        Caption,
+                        Amount,
+                        ActType,
+                        CreateDate,
+                        Body
                     )
                     VALUES
                     (
-                        @userID
-                        ,@caption
-                        ,@amount
-                        ,@actType
-                        ,@createDate
-                        ,@body
-                    ) ";
+                        @userID,
+                        @caption,
+                        @amount,
+                        @actType,
+                        @createDate,
+                        @body
+                    )
+                ";
 
 
-            // connect db & execute
             using (SqlConnection conn = new SqlConnection(connStr))
             {
                 using (SqlCommand comm = new SqlCommand(dbCommand, conn))
@@ -129,49 +145,51 @@ namespace AccountingNote.DBSource
                     try
                     {
                         conn.Open();
-                        comm.ExecuteNonQuery();
+                        comm.ExecuteReader();
 
                     }
                     catch (Exception ex)
                     {
                         Logger.WriteLog(ex);
                     }
+
                 }
             }
         }
 
 
-        /// <summary> 建立流水帳 </summary>
+        /// <summary>修改流水帳</summary>
         /// <param name="ID"></param>
         /// <param name="userID"></param>
         /// <param name="caption"></param>
         /// <param name="amount"></param>
         /// <param name="actType"></param>
         /// <param name="body"></param>
+        /// <returns></returns>
         public static bool UpdateAccounting(int ID, string userID, string caption, int amount, int actType, string body)
         {
-            // <<<<< check input >>>>>
-            if (amount < 0 || amount > 1000000)
+
+            // <<<< check input >>>>
+            if (amount < 0 || amount > 100000)
                 throw new ArgumentException("Amount must between 0 and 1,000,000 .");
 
             if (actType < 0 || actType > 1)
                 throw new ArgumentException("ActType must be 0 or 1.");
-            // <<<<< check input >>>>>
+            // <<<< check input >>>>
 
             string connStr = DBHelper.GetConnectionString();
             string dbCommand =
                 $@" UPDATE [Accounting]
-                    SET
-                        UserID       = @userID 
-                        ,Caption     = @caption
-                        ,Amount      = @amount
-                        ,ActType     = @actType
-                        ,CreateDate  = @createDate
-                        ,Body        = @body
-                    WHERE 
-                        ID = @id ";
+                    SET  UserID    = @userID
+                       ,Caption   = @caption
+                       ,Amount    = @amount
+                       ,ActType   = @actType
+                       ,CreateDate= @createDate
+                       ,Body       = @body
+                    WHERE
+                        ID = @id";
 
-            // connect db & execute
+            //connect db & execute
             using (SqlConnection conn = new SqlConnection(connStr))
             {
                 using (SqlCommand comm = new SqlCommand(dbCommand, conn))
@@ -187,6 +205,7 @@ namespace AccountingNote.DBSource
                     try
                     {
                         conn.Open();
+
                         int effectRows = comm.ExecuteNonQuery();
 
                         if (effectRows == 1)
@@ -198,22 +217,22 @@ namespace AccountingNote.DBSource
                     {
                         Logger.WriteLog(ex);
                         return false;
+
                     }
+
                 }
             }
         }
 
 
-        /// <summary> 刪除流水帳 </summary>
-        /// <param name="ID"></param>
         public static void DeleteAccounting(int ID)
         {
             string connStr = DBHelper.GetConnectionString();
             string dbCommand =
                 $@" DELETE [Accounting]
-                    WHERE ID = @id ";
+                    WHERE ID = @id";
 
-            // connect db & execute
+            //connect db & execute
             using (SqlConnection conn = new SqlConnection(connStr))
             {
                 using (SqlCommand comm = new SqlCommand(dbCommand, conn))
@@ -223,14 +242,16 @@ namespace AccountingNote.DBSource
                     try
                     {
                         conn.Open();
-                        comm.ExecuteNonQuery();
+                        int effectRows = comm.ExecuteNonQuery();
                     }
                     catch (Exception ex)
                     {
                         Logger.WriteLog(ex);
                     }
+
                 }
             }
         }
+
     }
 }

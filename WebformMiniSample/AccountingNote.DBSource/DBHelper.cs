@@ -26,11 +26,10 @@ namespace AccountingNote.DBSource
                 {
                     comm.Parameters.AddRange(list.ToArray());
 
-
                     conn.Open();
                     var reader = comm.ExecuteReader();
-
                     DataTable dt = new DataTable();
+
                     dt.Load(reader);
 
                     return dt;
