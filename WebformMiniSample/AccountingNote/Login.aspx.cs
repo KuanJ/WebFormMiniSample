@@ -1,10 +1,5 @@
 ﻿using AccountingNote.DBSource;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.UI;
-using System.Web.UI.WebControls;
 
 namespace AccountingNote
 {
@@ -20,7 +15,6 @@ namespace AccountingNote
             else
             {
                 this.plcLogin.Visible = true;
-                return;
             }
         }
 
@@ -51,7 +45,6 @@ namespace AccountingNote
             {
                 this.Session["UserLoginInfo"] = dr["Account"].ToString();
                 Response.Redirect("/SystemAdmin/UserInfo.aspx");
-
             }
             else
             {

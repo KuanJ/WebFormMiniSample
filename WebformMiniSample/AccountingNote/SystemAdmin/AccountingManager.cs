@@ -1,26 +1,23 @@
 ﻿using AccountingNote.DBSource;
 using System;
-using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
-using System.Linq;
-using System.Web;
 
 namespace AccountingNote.SystemAdmin
 {
     public class AccountingManager
     {
-        private static string GetConnecionString()
-        {
-            string val = ConfigurationManager.ConnectionStrings["DafaultConnection"].ConnectionString;
-            return val;
-        }
+        //private static string GetConnecionString()
+        //{
+        //    string val = ConfigurationManager.ConnectionStrings["DafaultConnection"].ConnectionString;
+        //    return val;
+        //}
 
 
         public static DataTable GetAccountingList(string userID)
         {
-            string connStr = GetConnecionString();
+            string connStr = DBHelper.GetConnectionString();
             string dbCommand =
                 $@" SELECT 
                         ID,
@@ -60,9 +57,9 @@ namespace AccountingNote.SystemAdmin
         /// <summary>查詢流水帳</summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        public static DataRow GetAccounting(int id,string userID)
+        public static DataRow GetAccounting(int id, string userID)
         {
-            string connStr = GetConnecionString();
+            string connStr = DBHelper.GetConnectionString();
             string dbCommand =
                 $@" SELECT 
                         ID,
@@ -118,7 +115,7 @@ namespace AccountingNote.SystemAdmin
             if (actType < 0 || actType > 1)
                 throw new ArgumentException("ActType must be 0 or 1.");
 
-            string connStr = GetConnecionString();
+            string connStr = DBHelper.GetConnectionString();
             string dbCommand =
                 $@" INSERT INTO  [dbo].[Accounting]
                     (
@@ -187,7 +184,7 @@ namespace AccountingNote.SystemAdmin
                 throw new ArgumentException("ActType must be 0 or 1.");
             // <<<< check input >>>>
 
-            string connStr = GetConnecionString();
+            string connStr = DBHelper.GetConnectionString();
             string dbCommand =
                 $@" UPDATE [Accounting]
                     SET  UserID    = @userID
@@ -237,7 +234,7 @@ namespace AccountingNote.SystemAdmin
 
         public static void DeleteAccounting(int ID)
         {
-            string connStr = GetConnecionString();
+            string connStr = DBHelper.GetConnectionString();
             string dbCommand =
                 $@" DELETE [Accounting]
                     WHERE ID = @id";
