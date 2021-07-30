@@ -15,12 +15,12 @@ namespace AccountingNote.SystemAdmin
                 Response.Redirect("/Login.aspx");
                 return;
             }
+            var currentUser = AuthManager.GetCurrentUser();
 
-            string account = this.Session["UserLoginInfo"] as string;
-            var drUserInfo = UserInfoManager.GetUserInfoByAccount(account);
 
-            if (drUserInfo == null)
+            if (currentUser == null)                 //如果帳號不存在，導至登入頁
             {
+                this.Session["UserLoginInfo"] = null;
                 Response.Redirect("/Login.aspx");
                 return;
             }
@@ -41,7 +41,7 @@ namespace AccountingNote.SystemAdmin
                     int id;
                     if (int.TryParse(idText, out id))
                     {
-                        var drAccounting = AccountingManager.GetAccounting(id, drUserInfo["ID"].ToString());
+                        var drAccounting = AccountingManager.GetAccounting(id,currentUser.ID);
 
                         if (drAccounting == null)
                         {
@@ -76,16 +76,14 @@ namespace AccountingNote.SystemAdmin
                 return;
             }
 
-            string account = this.Session["UserLoginInfo"] as string;
-            var dr = UserInfoManager.GetUserInfoByAccount(account);
-
-            if (dr == null)
+            UserInfoModel currentUser = AuthManager.GetCurrentUser();
+            if(currentUser == null)
             {
                 Response.Redirect("/Login.aspx");
                 return;
             }
 
-            string userID = dr["ID"].ToString();
+            string userID = currentUser.ID;
             string actTypeText = this.ddlActType.SelectedValue;
             string amountText = this.txtAmount.Text;
             string caption = this.txtCaption.Text;

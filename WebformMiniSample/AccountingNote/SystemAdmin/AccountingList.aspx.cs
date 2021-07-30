@@ -12,23 +12,26 @@ namespace AccountingNote.SystemAdmin
         protected void Page_Load(object sender, EventArgs e)
         {
             // check is logined
-            if(!AuthManager.IsLogined())
+            if (!AuthManager.IsLogined())
             {
                 Response.Redirect("/Login.aspx");
                 return;
             }
 
-            string account = this.Session["UserLoginInfo"] as string;
-            var dr = UserInfoManager.GetUserInfoByAccount(account);
+            var currentUser = AuthManager.GetCurrentUser();
 
-            if (dr == null)
+            //string account = this.Session["UserLoginInfo"] as string;
+            //var dr = UserInfoManager.GetUserInfoByAccount(account);
+
+            if (currentUser == null)                 //如果帳號不存在，導至登入頁
             {
+                this.Session["UserLoginInfo"] = null;
                 Response.Redirect("/Login.aspx");
                 return;
             }
 
             // read accounting data
-            var dt = AccountingManager.GetAccountingList(dr["ID"].ToString());
+            var dt = AccountingManager.GetAccountingList(currentUser.ID);
 
             if (dt.Rows.Count > 0)  // check is empty data
             {
