@@ -118,31 +118,23 @@ namespace AccountingNote.SystemAdmin
                     )
                 ";
 
+            List<SqlParameter> paramList = new List<SqlParameter>();
+            paramList.Add(new SqlParameter("@userID", userID));
+            paramList.Add(new SqlParameter("@caption", caption));
+            paramList.Add(new SqlParameter("@amount", amount));
+            paramList.Add(new SqlParameter("@createDate", DateTime.Now));
+            paramList.Add(new SqlParameter("@actType", actType));
+            paramList.Add(new SqlParameter("@body", body));
 
-            using (SqlConnection conn = new SqlConnection(connStr))
+            try
             {
-                using (SqlCommand comm = new SqlCommand(dbCommand, conn))
-                {
-                    comm.Parameters.AddWithValue("@userID", userID);
-                    comm.Parameters.AddWithValue("@caption", caption);
-                    comm.Parameters.AddWithValue("@amount", amount);
-                    comm.Parameters.AddWithValue("@actType", actType);
-                    comm.Parameters.AddWithValue("@createDate", DateTime.Now);
-                    comm.Parameters.AddWithValue("@body", body);
-
-                    try
-                    {
-                        conn.Open();
-                        comm.ExecuteReader();
-
-                    }
-                    catch (Exception ex)
-                    {
-                        Logger.WriteLog(ex);
-                    }
-
-                }
+                DBHelper.ModifyData(connStr, dbCommand, paramList);
             }
+            catch (Exception ex)
+            {
+                Logger.WriteLog(ex);
+            }
+
         }
 
 
@@ -177,38 +169,31 @@ namespace AccountingNote.SystemAdmin
                     WHERE
                         ID = @id";
 
+            List<SqlParameter> paramList = new List<SqlParameter>();
+            paramList.Add(new SqlParameter("@userID", userID));
+            paramList.Add(new SqlParameter("@caption", caption));
+            paramList.Add(new SqlParameter("@amount", amount));
+            paramList.Add(new SqlParameter("@actType", actType));
+            paramList.Add(new SqlParameter("@createDate", DateTime.Now));
+            paramList.Add(new SqlParameter("@body", body));
+            paramList.Add(new SqlParameter("@id", ID));
+
             //connect db & execute
-            using (SqlConnection conn = new SqlConnection(connStr))
+            try
             {
-                using (SqlCommand comm = new SqlCommand(dbCommand, conn))
-                {
-                    comm.Parameters.AddWithValue("@userID", userID);
-                    comm.Parameters.AddWithValue("@caption", caption);
-                    comm.Parameters.AddWithValue("@amount", amount);
-                    comm.Parameters.AddWithValue("@actType", actType);
-                    comm.Parameters.AddWithValue("@createDate", DateTime.Now);
-                    comm.Parameters.AddWithValue("@body", body);
-                    comm.Parameters.AddWithValue("@id", ID);
+                int effectRows = DBHelper.ModifyData(connStr, dbCommand, paramList);
 
-                    try
-                    {
-                        conn.Open();
+                if (effectRows == 1)
+                    return true;
+                else
+                    return false;
 
-                        int effectRows = comm.ExecuteNonQuery();
+            }
+            catch (Exception ex)
+            {
+                Logger.WriteLog(ex);
+                return false;
 
-                        if (effectRows == 1)
-                            return true;
-                        else
-                            return false;
-                    }
-                    catch (Exception ex)
-                    {
-                        Logger.WriteLog(ex);
-                        return false;
-
-                    }
-
-                }
             }
         }
 
@@ -221,12 +206,12 @@ namespace AccountingNote.SystemAdmin
                     WHERE ID = @id";
 
 
-            List<SqlParameter> parameters = new List<SqlParameter>();
-            parameters.Add(new SqlParameter("@id", ID));
+            List<SqlParameter> paramList = new List<SqlParameter>();
+            paramList.Add(new SqlParameter("@id", ID));
             //connect db & execute
             try
             {
-                DBHelper.ModifyData(connStr, dbCommand, parameters);
+                DBHelper.ModifyData(connStr, dbCommand, paramList);
             }
             catch (Exception ex)
             {
@@ -235,6 +220,6 @@ namespace AccountingNote.SystemAdmin
 
         }
 
-        
+
     }
 }
