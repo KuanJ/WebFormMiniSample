@@ -73,7 +73,7 @@ namespace AccountingNote.SystemAdmin
             {
                 return DBHelper.ReadDataRow(connStr, dbCommand, list);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 Logger.WriteLog(ex);
                 return null;
@@ -220,26 +220,21 @@ namespace AccountingNote.SystemAdmin
                 $@" DELETE [Accounting]
                     WHERE ID = @id";
 
+
+            List<SqlParameter> parameters = new List<SqlParameter>();
+            parameters.Add(new SqlParameter("@id", ID));
             //connect db & execute
-            using (SqlConnection conn = new SqlConnection(connStr))
+            try
             {
-                using (SqlCommand comm = new SqlCommand(dbCommand, conn))
-                {
-                    comm.Parameters.AddWithValue("@id", ID);
-
-                    try
-                    {
-                        conn.Open();
-                        int effectRows = comm.ExecuteNonQuery();
-                    }
-                    catch (Exception ex)
-                    {
-                        Logger.WriteLog(ex);
-                    }
-
-                }
+                DBHelper.ModifyData(connStr, dbCommand, parameters);
             }
+            catch (Exception ex)
+            {
+                Logger.WriteLog(ex);
+            }
+
         }
 
+        
     }
 }

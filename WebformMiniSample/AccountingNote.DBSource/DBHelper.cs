@@ -60,5 +60,19 @@ namespace AccountingNote.DBSource
                 }
             }
         }
+
+        public static void ModifyData(string connStr, string dbCommand, List<SqlParameter> parameters)
+        {
+            using (SqlConnection conn = new SqlConnection(connStr))
+            {
+                using (SqlCommand comm = new SqlCommand(dbCommand, conn))
+                {
+                    comm.Parameters.AddRange(parameters.ToArray());
+                    conn.Open();
+                    comm.ExecuteNonQuery();
+
+                }
+            }
+        }
     }
 }
