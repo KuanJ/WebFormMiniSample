@@ -18,7 +18,8 @@
             <tr>
                 <td>
                     <a href="UserInfo.aspx">使用者資訊</a><br />
-                    <a href="AccountingList.aspx">流水帳管理</a>
+                    <a href="AccountingList.aspx">流水帳管理</a><br />
+
                 </td>
                 <td>
                     <!--這裡放主要內容-->

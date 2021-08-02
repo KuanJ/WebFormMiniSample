@@ -5,7 +5,7 @@ using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
 
-namespace AccountingNote.SystemAdmin
+namespace AccountingNote.DBSource
 {
     public class AccountingManager
     {
