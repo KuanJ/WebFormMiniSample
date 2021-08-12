@@ -7,16 +7,16 @@
     <ProductVersion>
     </ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{850C89F0-BDB0-4FEF-850B-F144B1BF64A0}</ProjectGuid>
+    <ProjectGuid>{81965E1D-622C-42D6-AD6E-76DEF6CDB660}</ProjectGuid>
     <ProjectTypeGuids>{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>AccountingNote</RootNamespace>
-    <AssemblyName>AccountingNote</AssemblyName>
+    <RootNamespace>Try9x9</RootNamespace>
+    <AssemblyName>Try9x9</AssemblyName>
     <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
     <UseIISExpress>true</UseIISExpress>
     <Use64BitIISExpress />
-    <IISExpressSSLPort>44316</IISExpressSSLPort>
+    <IISExpressSSLPort>44340</IISExpressSSLPort>
     <IISExpressAnonymousAuthentication />
     <IISExpressWindowsAuthentication />
     <IISExpressUseClassicPipelineMode />
@@ -43,10 +43,15 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Microsoft.CSharp" />
-    <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>..\packages\Newtonsoft.Json.13.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.dll</HintPath>
     </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Security" />
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
     <Reference Include="System.Web.ApplicationServices" />
@@ -70,111 +75,26 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="About.aspx" />
-    <Content Include="AjaxAccountingNote.aspx" />
-    <Content Include="Default.aspx" />
     <Content Include="Global.asax" />
-    <Content Include="Login.aspx" />
-    <Content Include="Scripts\jQuery-min-3.6.0.js" />
-    <Content Include="UserControls\ucPager.ascx" />
-    <Content Include="SystemAdmin\AccountingDetail.aspx" />
-    <Content Include="SystemAdmin\AccountingList.aspx" />
-    <Content Include="SystemAdmin\UserInfo.aspx" />
-    <Content Include="UserControls\ucPager2.ascx" />
     <Content Include="Web.config" />
+    <Content Include="WebForm1.aspx" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="About.aspx.cs">
-      <DependentUpon>About.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="About.aspx.designer.cs">
-      <DependentUpon>About.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="AjaxAccountingNote.aspx.cs">
-      <DependentUpon>AjaxAccountingNote.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="AjaxAccountingNote.aspx.designer.cs">
-      <DependentUpon>AjaxAccountingNote.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="Default.aspx.cs">
-      <DependentUpon>Default.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="Default.aspx.designer.cs">
-      <DependentUpon>Default.aspx</DependentUpon>
-    </Compile>
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Handlers\AccountingNoteHandler.ashx.cs">
-      <DependentUpon>AccountingNoteHandler.ashx</DependentUpon>
-    </Compile>
-    <Compile Include="Handlers\AccountingNoteList.ashx.cs">
-      <DependentUpon>AccountingNoteList.ashx</DependentUpon>
-    </Compile>
-    <Compile Include="Handlers\CreateAccountingNote.ashx.cs">
-      <DependentUpon>CreateAccountingNote.ashx</DependentUpon>
-    </Compile>
-    <Compile Include="Login.aspx.cs">
-      <DependentUpon>Login.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="Login.aspx.designer.cs">
-      <DependentUpon>Login.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="Models\AccountingNoteViewModel.cs" />
-    <Compile Include="UserControls\ucPager.ascx.cs">
-      <DependentUpon>ucPager.ascx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="UserControls\ucPager.ascx.designer.cs">
-      <DependentUpon>ucPager.ascx</DependentUpon>
-    </Compile>
+    <Compile Include="Models\ConnectionDB.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SystemAdmin\AccountingDetail.aspx.cs">
-      <DependentUpon>AccountingDetail.aspx</DependentUpon>
+    <Compile Include="WebForm1.aspx.cs">
+      <DependentUpon>WebForm1.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="SystemAdmin\AccountingDetail.aspx.designer.cs">
-      <DependentUpon>AccountingDetail.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="SystemAdmin\AccountingList.aspx.cs">
-      <DependentUpon>AccountingList.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="SystemAdmin\AccountingList.aspx.designer.cs">
-      <DependentUpon>AccountingList.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="SystemAdmin\Admin.Master.cs">
-      <DependentUpon>Admin.Master</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="SystemAdmin\Admin.Master.designer.cs">
-      <DependentUpon>Admin.Master</DependentUpon>
-    </Compile>
-    <Compile Include="SystemAdmin\UserInfo.aspx.cs">
-      <DependentUpon>UserInfo.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="SystemAdmin\UserInfo.aspx.designer.cs">
-      <DependentUpon>UserInfo.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="UserControls\ucPager2.ascx.cs">
-      <DependentUpon>ucPager2.ascx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="UserControls\ucPager2.ascx.designer.cs">
-      <DependentUpon>ucPager2.ascx</DependentUpon>
+    <Compile Include="WebForm1.aspx.designer.cs">
+      <DependentUpon>WebForm1.aspx</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Handlers\AccountingNoteList.ashx" />
-    <Content Include="Handlers\CreateAccountingNote.ashx" />
-    <Content Include="Handlers\AccountingNoteHandler.ashx" />
     <None Include="packages.config" />
-    <Content Include="SystemAdmin\Admin.Master" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -184,16 +104,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\AccountingNote.Auth\AccountingNote.Auth.csproj">
-      <Project>{36629644-15c7-477d-9e12-ccbb00f27b1c}</Project>
-      <Name>AccountingNote.Auth</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\AccountingNote.DBSource\AccountingNote.DBSource.csproj">
-      <Project>{f5e7aca0-06c5-4119-8dc8-0581da0379dd}</Project>
-      <Name>AccountingNote.DBSource</Name>
-    </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
@@ -208,9 +118,9 @@
         <WebProjectProperties>
           <UseIIS>True</UseIIS>
           <AutoAssignPort>True</AutoAssignPort>
-          <DevelopmentServerPort>9078</DevelopmentServerPort>
+          <DevelopmentServerPort>4035</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>https://localhost:44316/</IISUrl>
+          <IISUrl>https://localhost:44340/</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>

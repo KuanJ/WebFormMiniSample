@@ -7,11 +7,11 @@
 // </自動產生的>
 //------------------------------------------------------------------------------
 
-namespace AccountingNote.SystemAdmin
+namespace Try9x9
 {
 
 
-    public partial class AccountingList
+    public partial class WebForm1
     {
 
         /// <summary>
@@ -24,48 +24,48 @@ namespace AccountingNote.SystemAdmin
         protected global::System.Web.UI.HtmlControls.HtmlForm form1;
 
         /// <summary>
-        /// btnCreate 控制項。
+        /// txtBase 控制項。
         /// </summary>
         /// <remarks>
         /// 自動產生的欄位。
         /// 若要修改，請將欄位宣告從設計工具檔案移到程式碼後置檔案。
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btnCreate;
+        protected global::System.Web.UI.WebControls.TextBox txtBase;
 
         /// <summary>
-        /// gvAccountingList 控制項。
+        /// txtMulti 控制項。
         /// </summary>
         /// <remarks>
         /// 自動產生的欄位。
         /// 若要修改，請將欄位宣告從設計工具檔案移到程式碼後置檔案。
         /// </remarks>
-        protected global::System.Web.UI.WebControls.GridView gvAccountingList;
+        protected global::System.Web.UI.WebControls.TextBox txtMulti;
 
         /// <summary>
-        /// ltPager 控制項。
+        /// btn 控制項。
         /// </summary>
         /// <remarks>
         /// 自動產生的欄位。
         /// 若要修改，請將欄位宣告從設計工具檔案移到程式碼後置檔案。
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Literal ltPager;
+        protected global::System.Web.UI.WebControls.Button btn;
 
         /// <summary>
-        /// ucPager2 控制項。
+        /// ltMsg 控制項。
         /// </summary>
         /// <remarks>
         /// 自動產生的欄位。
         /// 若要修改，請將欄位宣告從設計工具檔案移到程式碼後置檔案。
         /// </remarks>
-        protected global::AccountingNote.UserControls.ucPager2 ucPager2;
+        protected global::System.Web.UI.WebControls.Literal ltMsg;
 
         /// <summary>
-        /// plcNoData 控制項。
+        /// ltCards 控制項。
         /// </summary>
         /// <remarks>
         /// 自動產生的欄位。
         /// 若要修改，請將欄位宣告從設計工具檔案移到程式碼後置檔案。
         /// </remarks>
-        protected global::System.Web.UI.WebControls.PlaceHolder plcNoData;
+        protected global::System.Web.UI.WebControls.Literal ltCards;
     }
 }

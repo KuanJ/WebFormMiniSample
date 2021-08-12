@@ -28,7 +28,7 @@ namespace AccountingNote.DBSource
                         CreateDate
                     FROM Accounting
                     WHERE UserID = @userID
-";
+                ";
 
             List<SqlParameter> list = new List<SqlParameter>();
             list.Add(new SqlParameter("@userID", userID));

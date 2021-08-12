@@ -37,11 +37,14 @@ namespace AccountingNote.SystemAdmin
             {
                 var dtPaged = this.GetPagedDataTable(dt);
 
+                this.ucPager2.TotalSize = dt.Rows.Count;
+                this.ucPager2.Bind();
+
                 this.gvAccountingList.DataSource = dtPaged;
                 this.gvAccountingList.DataBind();
 
-                this.ucPager.TotalSize = dt.Rows.Count;
-                this.ucPager.Bind();
+                //this.ucPager.TotalSize = dt.Rows.Count;
+                //this.ucPager.Bind();
             }
             else
             {
@@ -70,6 +73,7 @@ namespace AccountingNote.SystemAdmin
         private DataTable GetPagedDataTable(DataTable dt)
         {
             DataTable dtPaged = dt.Clone();
+            //int pagesize = 
 
             int startIndex = (this.GetCurrentPage() - 1) * 10;
             int endIndex = (this.GetCurrentPage()) * 10;

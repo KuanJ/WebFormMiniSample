@@ -1,0 +1,46 @@
+﻿<%@ Master Language="C#" AutoEventWireup="true" CodeBehind="Main.master.cs" Inherits="WebApplication1.Main" %>
+
+<!DOCTYPE html>
+
+<html>
+<head runat="server">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title><%= this.MyTitle %></title>
+    <asp:ContentPlaceHolder ID="head" runat="server">
+    </asp:ContentPlaceHolder>
+</head>
+<body>
+    <form id="form1" runat="server">
+        <table>
+            <tr>
+                <td colspan="2">
+                    <asp:Literal ID="ltlCaption" runat="server">示範例子</asp:Literal>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <a href="Default.aspx">測試頁</a><br />
+                    <a href="WebForm1.aspx"></a>第一頁<br />
+                </td>
+                <td>
+                    <!--這裡放主要內容-->
+                    <asp:ContentPlaceHolder ID="ContentPlaceHolder1" runat="server">
+                    </asp:ContentPlaceHolder>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    <h3>
+                        <asp:TextBox ID="txtEmail" runat="server">
+
+                        </asp:TextBox><asp:Button ID="Button1" runat="server" Text="Button" OnClick="Button1_Click" />
+                        <asp:Literal ID="ltlMsg" runat="server"></asp:Literal>
+
+                    </h3>
+                </td>
+            </tr>
+        </table>
+
+    </form>
+</body>
+</html>
