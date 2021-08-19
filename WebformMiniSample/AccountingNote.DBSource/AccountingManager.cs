@@ -1,5 +1,7 @@
 ﻿using AccountingNote.DBSource;
+using AccountingNote.ORM.DBModels;
 using System;
+using System.Linq;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
@@ -15,7 +17,9 @@ namespace AccountingNote.DBSource
         //    return val;
         //}
 
-
+        /// <summary>
+        /// 查詢流水帳清單
+        /// </summary>
         public static DataTable GetAccountingList(string userID)
         {
             string connStr = DBHelper.GetConnectionString();
@@ -45,7 +49,30 @@ namespace AccountingNote.DBSource
             }
         }
 
+        /// <summary>
+        /// 查詢流水帳清單
+        /// </summary>
+        public static List<Accounting> GetAccountingList(Guid userID)
+        {
+            try
+            {
+                using (ContextModel context = new ContextModel())
+                {
+                    var query =
+                        (from item in context.Accountings
+                         where item.UserID == userID
+                        select item);
 
+                    var list = query.ToList();
+                    return list;
+                }
+            }
+            catch (Exception ex)
+            {
+                Logger.WriteLog(ex);
+                return null;
+            }
+        }
 
         /// <summary>查詢流水帳</summary>
         /// <param name="id"></param>
@@ -197,7 +224,10 @@ namespace AccountingNote.DBSource
             }
         }
 
-
+        /// <summary>
+        /// 刪除流水帳
+        /// </summary>
+        /// <param name="ID"></param>
         public static void DeleteAccounting(int ID)
         {
             string connStr = DBHelper.GetConnectionString();

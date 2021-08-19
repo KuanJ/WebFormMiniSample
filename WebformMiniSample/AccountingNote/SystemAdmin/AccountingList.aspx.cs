@@ -1,8 +1,11 @@
 ﻿using AccountingNote.Auth;
 using AccountingNote.DBSource;
+using AccountingNote.ORM.DBModels;
 using System;
+using System.Collections.Generic;
 using System.Data;
 using System.Drawing;
+using System.Linq;
 using System.Web.UI.WebControls;
 
 namespace AccountingNote.SystemAdmin
@@ -31,21 +34,21 @@ namespace AccountingNote.SystemAdmin
             }
 
             // read accounting data
-            var dt = AccountingManager.GetAccountingList(currentUser.ID);
+            //var dt = AccountingManager.GetAccountingList(currentUser.ID);
+            var list = AccountingManager.GetAccountingList(currentUser.UserGuid);
 
-            if (dt.Rows.Count > 0)  // check is empty data
+            if (list.Count > 0)  // check is empty data
             {
-                var dtPaged = this.GetPagedDataTable(dt);
-
-                this.ucPager2.TotalSize = dt.Rows.Count;
-                this.ucPager2.Bind();
-
-                this.gvAccountingList.DataSource = dtPaged;
+                var pagedList = this.GetPagedDataTable(list);
+                this.gvAccountingList.DataSource = pagedList;
                 this.gvAccountingList.DataBind();
 
-                //this.ucPager.TotalSize = dt.Rows.Count;
-                //this.ucPager.Bind();
+                //this.ucPager2.TotalSize = dt.Rows.Count;
+                this.ucPager2.TotalSize = list.Count;
+                this.ucPager2.Bind();
+
             }
+
             else
             {
                 this.gvAccountingList.Visible = false;
@@ -69,6 +72,14 @@ namespace AccountingNote.SystemAdmin
 
             return intPage;
         }
+
+        private List<Accounting> GetPagedDataTable(List<Accounting> list)
+        {
+            int startIndex = (this.GetCurrentPage() - 1) * 10;
+
+            return list.Skip(startIndex).Take(10).ToList();
+        }
+
 
         private DataTable GetPagedDataTable(DataTable dt)
         {
@@ -102,15 +113,14 @@ namespace AccountingNote.SystemAdmin
         protected void gvAccountingList_RowDataBound(object sender, GridViewRowEventArgs e)
         {
             var row = e.Row;
-            //Literal ltl = row.FindControl("ltActType") as Literal;
 
             if (row.RowType == DataControlRowType.DataRow)
             {
                 //Literal ltl = row.FindControl("ltActType") as Literal;
                 Label lbl = row.FindControl("lblActType") as Label;
 
-                var dr = row.DataItem as DataRowView;
-                int actType = dr.Row.Field<int>("ActType");
+                var rowData = row.DataItem as Accounting;
+                int actType = rowData.ActType;
 
                 if (actType == 0)
                 {
@@ -123,7 +133,7 @@ namespace AccountingNote.SystemAdmin
                     lbl.Text = "收入";
                 }
 
-                if (dr.Row.Field<int>("Amount") > 1500)
+                if (rowData.Amount > 1500)
                 {
                     lbl.ForeColor = Color.Red;
                 }

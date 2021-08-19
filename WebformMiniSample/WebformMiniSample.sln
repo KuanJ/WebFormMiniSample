@@ -17,6 +17,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebApplication2", "WebAppli
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TryReadAPI", "TryReadAPI\TryReadAPI.csproj", "{B0EBD21F-34B7-4CCB-AC63-63B8228C2EFE}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AccountingNote.ORM", "AccountingNote.ORM\AccountingNote.ORM.csproj", "{2F304318-AAD6-4DFB-8A0D-1A83076B37AF}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -51,6 +53,10 @@ Global
 		{B0EBD21F-34B7-4CCB-AC63-63B8228C2EFE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B0EBD21F-34B7-4CCB-AC63-63B8228C2EFE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B0EBD21F-34B7-4CCB-AC63-63B8228C2EFE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2F304318-AAD6-4DFB-8A0D-1A83076B37AF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2F304318-AAD6-4DFB-8A0D-1A83076B37AF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2F304318-AAD6-4DFB-8A0D-1A83076B37AF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2F304318-AAD6-4DFB-8A0D-1A83076B37AF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

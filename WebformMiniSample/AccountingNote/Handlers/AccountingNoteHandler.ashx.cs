@@ -75,7 +75,28 @@ namespace AccountingNote.Handlers
             }
             else if (actionName == "list")
             {
+                string userID = "88ff210c-e8c6-475e-8a25-13cf33b8c173";
 
+                DataTable dataTable = AccountingManager.GetAccountingList(userID);
+
+                List<AccountingNoteViewModel> list = new List<AccountingNoteViewModel>();
+                foreach (DataRow drAccounting in dataTable.Rows)
+                {
+                    AccountingNoteViewModel model = new AccountingNoteViewModel()
+                    {
+                        ID = drAccounting["ID"].ToString(),
+                        Caption = drAccounting["Caption"].ToString(),
+                        Amount = drAccounting.Field<int>("Amount"),
+                        ActType = (drAccounting.Field<int>("ActType") == 0) ? "支出" : "收入",
+                        CreateDate = drAccounting.Field<DateTime>("CreateDate").ToString("yyyy-MM-dd")
+                    };
+
+                    list.Add(model);
+                }
+                string jsonText = Newtonsoft.Json.JsonConvert.SerializeObject(list);
+
+                context.Response.ContentType = "application/json";
+                context.Response.Write(jsonText);
             }
             //讀取單筆
             else if (actionName == "query")

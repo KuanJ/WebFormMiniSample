@@ -13,5 +13,20 @@ namespace AccountingNote.Auth
         public string Name { get; set; }
         public string Email { get; set; }
 
+
+        public Guid UserGuid
+        {
+            get
+            {
+                if (Guid.TryParse(this.ID, out Guid tempGuid))
+                {
+                    return tempGuid;
+                }
+                else
+                {
+                    return Guid.Empty;
+                }
+            }
+        }
     }
 }
