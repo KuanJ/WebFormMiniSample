@@ -1,5 +1,7 @@
 ﻿using AccountingNote.Auth;
 using AccountingNote.DBSource;
+using AccountingNote.Extension;
+using AccountingNote.ORM.DBModels;
 using System;
 using System.Collections.Generic;
 
@@ -41,9 +43,9 @@ namespace AccountingNote.SystemAdmin
                     int id;
                     if (int.TryParse(idText, out id))
                     {
-                        var drAccounting = AccountingManager.GetAccounting(id,currentUser.ID);
+                        var accounting = AccountingManager.GetAccounting(id,currentUser.ID);
 
-                        if (drAccounting == null)
+                        if (accounting == null)
                         {
                             this.ltMsg.Text = "Data doesn't exist";
                             this.btnSave.Visible = false;
@@ -51,10 +53,10 @@ namespace AccountingNote.SystemAdmin
                         }
                         else
                         {
-                            this.ddlActType.SelectedValue = drAccounting["ActType"].ToString();
-                            this.txtAmount.Text = drAccounting["Amount"].ToString();
-                            this.txtCaption.Text = drAccounting["Caption"].ToString();
-                            this.txtDesc.Text = drAccounting["Body"].ToString();
+                            this.ddlActType.SelectedValue = accounting.ActType.ToString();
+                            this.txtAmount.Text = accounting.Amount.ToString();
+                            this.txtCaption.Text = accounting.Caption;
+                            this.txtDesc.Text = accounting.Body;
                         }
                     }
                     else
@@ -83,28 +85,39 @@ namespace AccountingNote.SystemAdmin
                 return;
             }
 
-            string userID = currentUser.ID;
             string actTypeText = this.ddlActType.SelectedValue;
             string amountText = this.txtAmount.Text;
-            string caption = this.txtCaption.Text;
-            string body = this.txtDesc.Text;
 
             int amount = Convert.ToInt32(amountText);
             int actType = Convert.ToInt32(actTypeText);
 
             string idText = this.Request.QueryString["ID"];
+            Accounting accounting = new Accounting()
+            {
+                UserID = currentUser.ID,
+                ActType = actType,
+                Amount = amount,
+                Caption = this.txtCaption.Text,
+                Body = this.txtDesc.Text
+            };
+
             if (string.IsNullOrWhiteSpace(idText))
             {
                 // Execute 'Insert into db'
-                AccountingManager.CreatAccounting(userID, caption, amount, actType, body);
+                
+                AccountingManager.CreatAccounting(accounting);
             }
             else
             {
                 int id;
                 if (int.TryParse(idText, out id))
                 {
+
+                    accounting.ID = id;
+
                     // Execute 'update db'
-                    AccountingManager.UpdateAccounting(id, userID, caption, amount, actType, body);
+                    AccountingManager.UpdateAccounting(accounting);
+
                 }
             }
 
@@ -153,7 +166,7 @@ namespace AccountingNote.SystemAdmin
             if (int.TryParse(idText, out id))
             {
                 // Execute 'delete db'
-                AccountingManager.DeleteAccounting(id);
+                AccountingManager.DeleteAccounting_ORM(id);
             }
 
             Response.Redirect("/SystemAdmin/AccountingList.aspx");

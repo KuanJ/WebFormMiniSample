@@ -45,7 +45,7 @@ namespace AccountingNote.Handlers
             }
 
             //建立流水帳
-            AccountingManager.CreatAccounting(id, caption, tempAmount, tempActType, body);
+            //AccountingManager.CreatAccounting(id, caption, tempAmount, tempActType, body);
 
             context.Response.ContentType = "text/plain";
             context.Response.Write("ok");
