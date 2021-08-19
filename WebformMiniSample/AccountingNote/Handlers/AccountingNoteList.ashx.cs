@@ -1,5 +1,7 @@
 ﻿using AccountingNote.DBSource;
+using AccountingNote.Extension;
 using AccountingNote.Models;
+using AccountingNote.ORM.DBModels;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -35,22 +37,33 @@ namespace AccountingNote.Handlers
             }
 
             string userID = dr["ID"].ToString();
-            DataTable dataTable = AccountingManager.GetAccountingList(userID);
+            Guid userGUID = userID.ToGuid();
+            List<Accounting> sourceList = AccountingManager.GetAccountingList(userGUID);
 
-            List<AccountingNoteViewModel> list = new List<AccountingNoteViewModel>();
-            foreach(DataRow drAccounting in dataTable.Rows)
+            //List<AccountingNoteViewModel> list = new List<AccountingNoteViewModel>();
+            //foreach(DataRow drAccounting in dataTable.Rows)
+            //{
+            //    AccountingNoteViewModel model = new AccountingNoteViewModel()
+            //    {
+            //        ID = drAccounting["ID"].ToString(),
+            //        Caption = drAccounting["Caption"].ToString(),
+            //        Amount = drAccounting.Field<int>("Amount"),
+            //        ActType = (drAccounting.Field<int>("ActType") == 0) ? "支出" : "收入",
+            //        CreateDate = drAccounting.Field<DateTime>("CreateDate").ToString("yyyy-MM-dd")
+            //    };
+
+            //    list.Add(model);
+            //}
+
+            List<AccountingNoteViewModel> list = sourceList.Select(obj => new AccountingNoteViewModel()
             {
-                AccountingNoteViewModel model = new AccountingNoteViewModel()
-                {
-                    ID = drAccounting["ID"].ToString(),
-                    Caption = drAccounting["Caption"].ToString(),
-                    Amount = drAccounting.Field<int>("Amount"),
-                    ActType = (drAccounting.Field<int>("ActType") == 0) ? "支出" : "收入",
-                    CreateDate = drAccounting.Field<DateTime>("CreateDate").ToString("yyyy-MM-dd")
-                };
+                ID=obj.ID.ToString(),
+                Caption = obj.Caption,
+                Amount = obj.Amount,
+                ActType = (obj.ActType == 0) ? "支出" : "收入",
+                CreateDate = obj.CreateDate.ToString("yyyy-MM-dd")
+            }).ToList();
 
-                list.Add(model);
-            }
             string jsonText = Newtonsoft.Json.JsonConvert.SerializeObject(list);
 
             context.Response.ContentType = "application/json";
