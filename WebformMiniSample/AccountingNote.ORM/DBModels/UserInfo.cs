@@ -26,5 +26,9 @@ namespace AccountingNote.ORM.DBModels
         [Required]
         [StringLength(100)]
         public string Email { get; set; }
+
+        [Required]
+        [StringLength(20)]
+        public string Phone { get; set; }
     }
 }

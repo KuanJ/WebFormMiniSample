@@ -24,6 +24,10 @@ namespace AccountingNote.ORM.DBModels
             modelBuilder.Entity<UserInfo>()
                 .Property(e => e.PWD)
                 .IsUnicode(false);
+
+            modelBuilder.Entity<UserInfo>()
+                .Property(e => e.Phone)
+                .IsUnicode(false);
         }
     }
 }
