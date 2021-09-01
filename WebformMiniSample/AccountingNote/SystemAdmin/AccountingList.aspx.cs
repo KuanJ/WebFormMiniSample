@@ -4,7 +4,7 @@ using AccountingNote.ORM.DBModels;
 using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Drawing;
+//using System.Drawing;
 using System.Linq;
 using System.Web.UI.WebControls;
 
@@ -118,24 +118,28 @@ namespace AccountingNote.SystemAdmin
             {
                 //Literal ltl = row.FindControl("ltActType") as Literal;
                 Label lbl = row.FindControl("lblActType") as Label;
+                Image img = row.FindControl("imgCover") as Image;
 
                 var rowData = row.DataItem as Accounting;
                 int actType = rowData.ActType;
 
                 if (actType == 0)
                 {
-                    //ltl.Text = "支出";
                     lbl.Text = "支出";
                 }
                 else
                 {
-                    //ltl.Text = "收入";
                     lbl.Text = "收入";
                 }
 
+                if (!string.IsNullOrEmpty(rowData.CoverImage))
+                {
+                    img.Visible = true;
+                    img.ImageUrl = "../FileDownload/Accounting/" + rowData.CoverImage;
+                }
                 if (rowData.Amount > 1500)
                 {
-                    lbl.ForeColor = Color.Red;
+                    lbl.ForeColor = System.Drawing.Color.Red;
                 }
             }
         }

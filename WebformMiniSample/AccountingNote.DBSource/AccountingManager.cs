@@ -310,6 +310,7 @@ namespace AccountingNote.DBSource
                         dbObject.Body = accounting.Body;
                         dbObject.Amount = accounting.Amount;
                         dbObject.ActType = accounting.ActType;
+                        dbObject.CoverImage = accounting.CoverImage;
 
                         context.SaveChanges();
 
