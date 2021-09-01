@@ -29,6 +29,6 @@ namespace AccountingNote.ORM.DBModels
 
         [Required]
         [StringLength(20)]
-        public string Phone { get; set; }
+        public string MobilePhone { get; set; }
     }
 }

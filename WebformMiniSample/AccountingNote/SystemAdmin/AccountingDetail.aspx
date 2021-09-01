@@ -30,6 +30,7 @@
                     Amount: <asp:TextBox ID="txtAmount" runat="server" TextMode="Number"></asp:TextBox><br />
                     Caption: <asp:TextBox ID="txtCaption" runat="server"></asp:TextBox><br />
                     Desc: <asp:TextBox ID="txtDesc" runat="server" TextMode="MultiLine"></asp:TextBox><br />
+                    Img: <asp:FileUpload ID="fileCover" runat="server" /> <br />
                     <asp:Button ID="btnSave" runat="server" Text="Save" OnClick="btnSave_Click" />
                     <asp:Button ID="btnDelete" runat="server" Text="Del" OnClick="btnDelete_Click"/>
                     <asp:Literal ID="ltMsg" runat="server"></asp:Literal>

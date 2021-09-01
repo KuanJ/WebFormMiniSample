@@ -126,6 +126,7 @@
     <Compile Include="Handlers\CreateAccountingNote.ashx.cs">
       <DependentUpon>CreateAccountingNote.ashx</DependentUpon>
     </Compile>
+    <Compile Include="Helpers\FileHelper.cs" />
     <Compile Include="Login.aspx.cs">
       <DependentUpon>Login.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -193,6 +194,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="FileDownload\Accounting\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\AccountingNote.Auth\AccountingNote.Auth.csproj">

@@ -1,9 +1,11 @@
 ﻿using AccountingNote.Auth;
 using AccountingNote.DBSource;
 using AccountingNote.Extension;
+using AccountingNote.Helps;
 using AccountingNote.ORM.DBModels;
 using System;
 using System.Collections.Generic;
+using System.IO;
 
 namespace AccountingNote.SystemAdmin
 {
@@ -101,6 +103,16 @@ namespace AccountingNote.SystemAdmin
                 Body = this.txtDesc.Text
             };
 
+            // 假如有人上傳檔案，就寫入檔名
+            if (this.fileCover.HasFile && FileHelper.ValidFileUpload(this.fileCover, out List<string> tempList))
+            {
+                string saveFileName = FileHelper.GetneFileName(this.fileCover);
+                string filepath = Path.Combine(this.GetSaveFolderPath(), saveFileName);
+                this.fileCover.SaveAs(filepath);
+
+                accounting.CoverImage = saveFileName;
+            }
+
             if (string.IsNullOrWhiteSpace(idText))
             {
                 // Execute 'Insert into db'
@@ -170,6 +182,11 @@ namespace AccountingNote.SystemAdmin
             }
 
             Response.Redirect("/SystemAdmin/AccountingList.aspx");
+        }
+
+        private string GetSaveFolderPath()
+        {
+            return Server.MapPath("~/FileDownload/Accounting");
         }
     }
 }

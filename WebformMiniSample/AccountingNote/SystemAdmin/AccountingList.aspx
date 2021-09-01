@@ -33,6 +33,9 @@
                             <asp:BoundField HeaderText="金額" DataField="Amount" />
                             <asp:TemplateField HeaderText="In/Out">
                                 <ItemTemplate>
+                                    <asp:Image ID="imgCover" runat="server" 
+                                        Visible='<%#Eval("CoverImage") != null %>'
+                                        ImageUrl='<%# "../FileDownload/Accounting/" + Eval("CoverImage") %>'  />
                                     <%--<%# ((int)Eval("ActType") == 0) ? "支出" : "收入" %>--%>
                                     <asp:Literal ID="ltActType" runat="server"></asp:Literal>
 
