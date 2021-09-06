@@ -12,6 +12,23 @@ namespace AccountingNote.DBSource
 {
     public class UserInfoManager
     {
+        public static List<UserInfo> GetUserInfoList()
+        {
+            try
+            {
+                using (ContextModel context = new ContextModel())
+                {
+                    var query = context.UserInfo;
+                    var list = query.ToList();
+                    return list;
+                }
+            }
+            catch (Exception ex)
+            {
+                Logger.WriteLog(ex);
+                return null;
+            }
+        }
         public static UserInfo GetUserInfoByAccount_ORM(string account)
         {
             try
@@ -19,7 +36,7 @@ namespace AccountingNote.DBSource
                 using (ContextModel context = new ContextModel())
                 {
                     var query =
-                        (from item in context.UserInfoes
+                        (from item in context.UserInfo
                          where item.Account == account
                          select item);
 

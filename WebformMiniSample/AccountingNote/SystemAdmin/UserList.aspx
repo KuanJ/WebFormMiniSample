@@ -1,13 +1,11 @@
-﻿<%@ Master Language="C#" AutoEventWireup="true" CodeBehind="Admin.master.cs" Inherits="AccountingNote.SystemAdmin.Admin" %>
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="UserList.aspx.cs" Inherits="AccountingNote.SystemAdmin.UserList" %>
 
 <!DOCTYPE html>
 
-<html>
+<html xmlns="http://www.w3.org/1999/xhtml">
 <head runat="server">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <title></title>
-    <asp:ContentPlaceHolder ID="head" runat="server">
-    </asp:ContentPlaceHolder>
 </head>
 <body>
     <form id="form1" runat="server">
@@ -22,11 +20,20 @@
                     <a href="UserInfo.aspx">使用者資訊</a><br />
                     <a href="AccountingList.aspx">流水帳管理</a><br />
                     <a href="UserList.aspx">使用者名單</a><br />
+
                 </td>
                 <td>
                     <!--這裡放主要內容-->
-                    <asp:ContentPlaceHolder ID="ContentPlaceHolder1" runat="server">
-                    </asp:ContentPlaceHolder>
+                    <asp:GridView ID="gvList" runat="server" AutoGenerateColumns="false">
+                        <Columns>
+                            <asp:BoundField DataField="Account" />
+                            <asp:TemplateField>
+                                <ItemTemplate>
+                                    <a href="UserAuth.aspx?ID=<%# Eval("ID") %>">修改權限</a>
+                                </ItemTemplate>
+                            </asp:TemplateField>
+                        </Columns>
+                    </asp:GridView>
                 </td>
             </tr>
         </table>

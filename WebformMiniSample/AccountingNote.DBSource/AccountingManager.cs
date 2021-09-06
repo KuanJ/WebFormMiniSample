@@ -59,7 +59,7 @@ namespace AccountingNote.DBSource
                 using (ContextModel context = new ContextModel())
                 {
                     var query =
-                        (from item in context.Accountings
+                        (from item in context.Accounting
                          where item.UserID == userID
                          select item);
 
@@ -117,7 +117,7 @@ namespace AccountingNote.DBSource
                 using (ContextModel context = new ContextModel())
                 {
                     var query =
-                        (from item in context.Accountings
+                        (from item in context.Accounting
                          where item.ID == id && item.UserID == userID
                          select item);
 
@@ -209,7 +209,7 @@ namespace AccountingNote.DBSource
                 using (ContextModel context = new ContextModel())
                 {
                     accounting.CreateDate = DateTime.Now;
-                    context.Accountings.Add(accounting);
+                    context.Accounting.Add(accounting);
                     context.SaveChanges();
                 }
             }
@@ -302,7 +302,7 @@ namespace AccountingNote.DBSource
             {
                 using (ContextModel context = new ContextModel())
                 {
-                    var dbObject = context.Accountings.Where(obj => obj.ID == accounting.ID).FirstOrDefault();
+                    var dbObject = context.Accounting.Where(obj => obj.ID == accounting.ID).FirstOrDefault();
 
                     if (dbObject != null)
                     {
@@ -363,11 +363,11 @@ namespace AccountingNote.DBSource
             {
                 using (ContextModel context = new ContextModel())
                 {
-                    var dbObject = context.Accountings.Where(obj => obj.ID == ID).FirstOrDefault();
+                    var dbObject = context.Accounting.Where(obj => obj.ID == ID).FirstOrDefault();
                     
                     if(dbObject != null)
                     {
-                        context.Accountings.Remove(dbObject);
+                        context.Accounting.Remove(dbObject);
                         context.SaveChanges();
                     }   
                 }
