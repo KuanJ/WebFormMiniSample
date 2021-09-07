@@ -44,11 +44,17 @@ namespace AccountingNote.SystemAdmin
                     return;
                 }
 
-                if (adminPage.RequiredLevel == UserLevelEnum.Regular &&
-                    !AuthManager.IsGrant(currentUser.ID, adminPage.RequiredRoles))
+                if (adminPage.RequiredLevel == UserLevelEnum.Regular)
                 {
-                    Response.Redirect("UserInfo.aspx");
-                    return;
+                    // 如果是管理者，不做角色驗證
+                    if (currentUser.Level == UserLevelEnum.Admin)
+                        return;
+
+                    if (!AuthManager.IsGrant(currentUser.ID, adminPage.RequiredRoles))
+                    {
+                        Response.Redirect("UserInfo.aspx");
+                        return;
+                    }
                 }
             }
         }

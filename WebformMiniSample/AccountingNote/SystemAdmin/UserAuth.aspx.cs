@@ -13,6 +13,8 @@ namespace AccountingNote.SystemAdmin
 {
     public partial class UserAuth : AdminPageBase
     {
+        public override UserLevelEnum RequiredLevel { get; set; } = UserLevelEnum.Admin;
+
         protected void Page_Load(object sender, EventArgs e)
         {
             var currentUser = AuthManager.GetCurrentUser();

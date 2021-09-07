@@ -1,4 +1,5 @@
-﻿using AccountingNote.DBSource;
+﻿using AccountingNote.Auth;
+using AccountingNote.DBSource;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,6 +11,7 @@ namespace AccountingNote.SystemAdmin
 {
     public partial class UserList : AdminPageBase
     {
+        public override UserLevelEnum RequiredLevel { get; set; } = UserLevelEnum.Admin;
         protected void Page_Load(object sender, EventArgs e)
         {
             var list = UserInfoManager.GetUserInfoList();

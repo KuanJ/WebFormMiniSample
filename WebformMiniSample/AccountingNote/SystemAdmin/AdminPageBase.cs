@@ -6,7 +6,7 @@ using System.Web;
 
 namespace AccountingNote.SystemAdmin
 {
-    public class AdminPageBase : System.Web.UI.Page
+    public abstract class AdminPageBase : System.Web.UI.Page
     {
         /// <summary> 需要的等級 </summary>
         public virtual UserLevelEnum RequiredLevel { get; set; } = UserLevelEnum.Regular;
