@@ -31,7 +31,7 @@ namespace AccountingNote.Auth
             if (account == null)
                 return null;
 
-            var userInfo = UserInfoManager.GetUserInfoByAccount_ORM(account);
+            var userInfo = UserInfoManager.GetUserInfoByAccount(account);
 
             if (userInfo == null)
             {

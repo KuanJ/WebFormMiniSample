@@ -11,41 +11,22 @@ using System.Web.UI.WebControls;
 
 namespace AccountingNote.SystemAdmin
 {
-    public partial class AccountingList : System.Web.UI.Page
+    public partial class AccountingList : AdminPageBase
     {
+        public override string[] RequiredRoles { get; set; } =
+            new string[]
+                {
+                    StaticText.RoleName_Announting_FinanceClerk,
+                    StaticText.RoleName_Announting_FinanceAdmin,
+                    StaticText.RoleName_Announting_FinanceReviewer,
+                };
         protected void Page_Load(object sender, EventArgs e)
         {
-            // check is logined
-            if (!AuthManager.IsLogined())
-            {
-                Response.Redirect("/Login.aspx");
-                return;
-            }
-
             var currentUser = AuthManager.GetCurrentUser();
-
-            if (currentUser == null)                 //如果帳號不存在，導至登入頁
-            {
-                this.Session["UserLoginInfo"] = null;
-                Response.Redirect("/Login.aspx");
-                return;
-            }
-
             if (currentUser.Level == UserLevelEnum.Regular)
             {
-
-                // 檢查是否已授權
-
-                if (!this.CanRead())
-                {
-                    Response.Redirect("UserInfo.aspx");
-                    return;
-                }
-
                 if (!this.CanEdit())
-                {
                     this.btnCreate.Visible = false;
-                }
             }
 
             // read accounting data
@@ -68,23 +49,6 @@ namespace AccountingNote.SystemAdmin
                 this.gvAccountingList.Visible = false;
                 this.plcNoData.Visible = true;
             }
-        }
-
-        private bool CanRead()
-        {
-            var currentUser = AuthManager.GetCurrentUser();
-
-            var roles =
-                new string[]
-                {
-                    StaticText.RoleName_Announting_FinanceClerk,
-                    StaticText.RoleName_Announting_FinanceAdmin,
-                    StaticText.RoleName_Announting_FinanceReviewer,
-                };
-            if (!AuthManager.IsGrant(currentUser.ID, roles))
-                return true;
-            else
-                return false;
         }
 
         private bool CanEdit()

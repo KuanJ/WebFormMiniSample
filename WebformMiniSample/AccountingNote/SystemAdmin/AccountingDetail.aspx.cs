@@ -10,38 +10,25 @@ using System.IO;
 
 namespace AccountingNote.SystemAdmin
 {
-    public partial class AccountingDetail : System.Web.UI.Page
+    public partial class AccountingDetail : AdminPageBase
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-            // check is logined
-            if (!AuthManager.IsLogined())
-            {
-                Response.Redirect("/Login.aspx");
-                return;
-            }
             var currentUser = AuthManager.GetCurrentUser();
-
-
-            if (currentUser == null)                 //如果帳號不存在，導至登入頁
+            if (currentUser.Level == UserLevelEnum.Regular)
             {
-                this.Session["UserLoginInfo"] = null;
-                Response.Redirect("/Login.aspx");
-                return;
-            }
-
-
-            // 檢查是否已授權
-            var roles =
-                new string[]
-                {
+                // 檢查是否已授權
+                var roles =
+                    new string[]
+                    {
                     StaticText.RoleName_Announting_FinanceClerk,
                     StaticText.RoleName_Announting_FinanceAdmin,
-                };
-            if (!AuthManager.IsGrant(currentUser.ID, roles))
-            {
-                Response.Redirect("UserInfo.aspx");
-                return;
+                    };
+                if (!AuthManager.IsGrant(currentUser.ID, roles))
+                {
+                    Response.Redirect("UserInfo.aspx");
+                    return;
+                }
             }
 
             if (!this.IsPostBack)
@@ -59,7 +46,7 @@ namespace AccountingNote.SystemAdmin
                     int id;
                     if (int.TryParse(idText, out id))
                     {
-                        var accounting = AccountingManager.GetAccounting(id,currentUser.ID);
+                        var accounting = AccountingManager.GetAccounting(id, currentUser.ID);
 
                         if (accounting == null)
                         {
@@ -95,7 +82,7 @@ namespace AccountingNote.SystemAdmin
             }
 
             UserInfoModel currentUser = AuthManager.GetCurrentUser();
-            if(currentUser == null)
+            if (currentUser == null)
             {
                 Response.Redirect("/Login.aspx");
                 return;
@@ -130,7 +117,7 @@ namespace AccountingNote.SystemAdmin
             if (string.IsNullOrWhiteSpace(idText))
             {
                 // Execute 'Insert into db'
-                
+
                 AccountingManager.CreatAccounting(accounting);
             }
             else

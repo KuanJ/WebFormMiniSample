@@ -1,4 +1,5 @@
-﻿using AccountingNote.DBSource;
+﻿using AccountingNote.Auth;
+using AccountingNote.DBSource;
 using AccountingNote.ORM.DBModels;
 using Microsoft.AspNetCore.Identity;
 using System;
@@ -10,10 +11,17 @@ using System.Web.UI.WebControls;
 
 namespace AccountingNote.SystemAdmin
 {
-    public partial class UserAuth : System.Web.UI.Page
+    public partial class UserAuth : AdminPageBase
     {
         protected void Page_Load(object sender, EventArgs e)
         {
+            var currentUser = AuthManager.GetCurrentUser();
+            if (currentUser.Level != UserLevelEnum.Admin)
+            {
+                Response.Redirect("UserInfo.aspx");
+                return;
+            }
+
             if (!this.IsPostBack)
             {
                 string userIDText = Request.QueryString["ID"];
@@ -23,13 +31,6 @@ namespace AccountingNote.SystemAdmin
 
                 Guid userID = Guid.Parse(userIDText);
                 var mUser = UserInfoManager.GetUserInfo(userID);
-
-                if (mUser == null)
-                //如果帳號不存在，導至使用者管理
-                {
-                    Response.Redirect("UserList.aspx");
-                    return;
-                }
 
                 this.ltAccount.Text = mUser.Account;
 
