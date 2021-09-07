@@ -139,12 +139,12 @@
     <Content Include="Images\search.png" />
     <Content Include="Login.aspx" />
     <Content Include="Scripts\jQuery-min-3.6.0.js" />
-    <Content Include="SystemAdmin\UserAuth.aspx" />
-    <Content Include="SystemAdmin\UserList.aspx" />
-    <Content Include="UserControls\ucPager.ascx" />
     <Content Include="SystemAdmin\AccountingDetail.aspx" />
     <Content Include="SystemAdmin\AccountingList.aspx" />
+    <Content Include="SystemAdmin\UserAuth.aspx" />
     <Content Include="SystemAdmin\UserInfo.aspx" />
+    <Content Include="SystemAdmin\UserList.aspx" />
+    <Content Include="UserControls\ucPager.ascx" />
     <Content Include="UserControls\ucPager2.ascx" />
     <Content Include="Web.config" />
   </ItemGroup>
@@ -193,6 +193,20 @@
     </Compile>
     <Compile Include="Models\AccountingNoteViewModel.cs" />
     <Compile Include="Models\StaticText.cs" />
+    <Compile Include="SystemAdmin\AccountingDetail.aspx.cs">
+      <DependentUpon>AccountingDetail.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="SystemAdmin\AccountingDetail.aspx.designer.cs">
+      <DependentUpon>AccountingDetail.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="SystemAdmin\AccountingList.aspx.cs">
+      <DependentUpon>AccountingList.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="SystemAdmin\AccountingList.aspx.designer.cs">
+      <DependentUpon>AccountingList.aspx</DependentUpon>
+    </Compile>
     <Compile Include="SystemAdmin\AdminPageBase.cs">
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
@@ -202,6 +216,13 @@
     </Compile>
     <Compile Include="SystemAdmin\UserAuth.aspx.designer.cs">
       <DependentUpon>UserAuth.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="SystemAdmin\UserInfo.aspx.cs">
+      <DependentUpon>UserInfo.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="SystemAdmin\UserInfo.aspx.designer.cs">
+      <DependentUpon>UserInfo.aspx</DependentUpon>
     </Compile>
     <Compile Include="SystemAdmin\UserList.aspx.cs">
       <DependentUpon>UserList.aspx</DependentUpon>
@@ -218,33 +239,12 @@
       <DependentUpon>ucPager.ascx</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SystemAdmin\AccountingDetail.aspx.cs">
-      <DependentUpon>AccountingDetail.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="SystemAdmin\AccountingDetail.aspx.designer.cs">
-      <DependentUpon>AccountingDetail.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="SystemAdmin\AccountingList.aspx.cs">
-      <DependentUpon>AccountingList.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="SystemAdmin\AccountingList.aspx.designer.cs">
-      <DependentUpon>AccountingList.aspx</DependentUpon>
-    </Compile>
     <Compile Include="SystemAdmin\Admin.Master.cs">
       <DependentUpon>Admin.Master</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="SystemAdmin\Admin.Master.designer.cs">
       <DependentUpon>Admin.Master</DependentUpon>
-    </Compile>
-    <Compile Include="SystemAdmin\UserInfo.aspx.cs">
-      <DependentUpon>UserInfo.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="SystemAdmin\UserInfo.aspx.designer.cs">
-      <DependentUpon>UserInfo.aspx</DependentUpon>
     </Compile>
     <Compile Include="UserControls\ucPager2.ascx.cs">
       <DependentUpon>ucPager2.ascx</DependentUpon>

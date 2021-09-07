@@ -87,12 +87,12 @@ namespace AccountingNote.SystemAdmin
                     return;
                 }
 
-                if(e.CommandName== "DeleteRole")
+                if (e.CommandName == "DeleteRole")
                 {
                     string roleIDText = e.CommandArgument as string;
                     Guid roleID = Guid.Parse(roleIDText);
 
-                    RoleManager.DeleteUserRole(userID ,roleID);
+                    RoleManager.DeleteUserRole(userID, roleID);
                     Response.Redirect("UserList.aspx");
                 }
             }

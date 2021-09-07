@@ -1,28 +1,29 @@
 ﻿using AccountingNote.Auth;
 using AccountingNote.DBSource;
-using AccountingNote.Extension;
 using AccountingNote.Helps;
 using AccountingNote.Models;
 using AccountingNote.ORM.DBModels;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
+using System.Web;
+using System.Web.UI;
+using System.Web.UI.WebControls;
 
 namespace AccountingNote.SystemAdmin
 {
     public partial class AccountingDetail : AdminPageBase
     {
         public override string[] RequiredRoles { get; set; } =
-                new string[]
-                {
+            new string[]
+            {
                 StaticText.RoleName_Announting_FinanceClerk,
                 StaticText.RoleName_Announting_FinanceAdmin,
-                };
+            };
         protected void Page_Load(object sender, EventArgs e)
         {
             var currentUser = AuthManager.GetCurrentUser();
-
-
             if (!this.IsPostBack)
             {
                 // Check is create mode or edit mode
@@ -82,7 +83,6 @@ namespace AccountingNote.SystemAdmin
 
             string actTypeText = this.ddlActType.SelectedValue;
             string amountText = this.txtAmount.Text;
-
             int amount = Convert.ToInt32(amountText);
             int actType = Convert.ToInt32(actTypeText);
 
@@ -96,12 +96,14 @@ namespace AccountingNote.SystemAdmin
                 Body = this.txtDesc.Text
             };
 
-            // 假如有人上傳檔案，就寫入檔名
-            if (this.fileCover.HasFile && FileHelper.ValidFileUpload(this.fileCover, out List<string> tempList))
+
+            // 假如有上傳檔案，就寫入檔名
+            if (this.fileCover.HasFile &&
+                FileHelper.ValidFileUpload(this.fileCover, out List<string> tempList))
             {
                 string saveFileName = FileHelper.GetneFileName(this.fileCover);
-                string filepath = Path.Combine(this.GetSaveFolderPath(), saveFileName);
-                this.fileCover.SaveAs(filepath);
+                string filePath = Path.Combine(this.GetSaveFolderPath(), saveFileName);
+                this.fileCover.SaveAs(filePath);
 
                 accounting.CoverImage = saveFileName;
             }
@@ -109,7 +111,6 @@ namespace AccountingNote.SystemAdmin
             if (string.IsNullOrWhiteSpace(idText))
             {
                 // Execute 'Insert into db'
-
                 AccountingManager.CreatAccounting(accounting);
             }
             else
@@ -117,18 +118,14 @@ namespace AccountingNote.SystemAdmin
                 int id;
                 if (int.TryParse(idText, out id))
                 {
-
-                    accounting.ID = id;
-
                     // Execute 'update db'
+                    accounting.ID = id;
                     AccountingManager.UpdateAccounting(accounting);
-
                 }
             }
 
             Response.Redirect("/SystemAdmin/AccountingList.aspx");
         }
-
         private bool CheckInput(out List<string> errorMsgList)
         {
             List<string> msgList = new List<string>();
@@ -159,7 +156,6 @@ namespace AccountingNote.SystemAdmin
             else
                 return false;
         }
-
         protected void btnDelete_Click(object sender, EventArgs e)
         {
             string idText = this.Request.QueryString["ID"];
@@ -171,11 +167,12 @@ namespace AccountingNote.SystemAdmin
             if (int.TryParse(idText, out id))
             {
                 // Execute 'delete db'
-                AccountingManager.DeleteAccounting_ORM(id);
+                AccountingManager.DeleteAccounting(id);
             }
 
             Response.Redirect("/SystemAdmin/AccountingList.aspx");
         }
+
 
         private string GetSaveFolderPath()
         {
