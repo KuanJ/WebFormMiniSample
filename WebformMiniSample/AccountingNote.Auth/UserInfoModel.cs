@@ -13,21 +13,16 @@ namespace AccountingNote.Auth
         public string Name { get; set; }
         public string Email { get; set; }
         public string MobilePhone { get; set; }
+        public int UserLevel { get; set; }
 
-        //public Guid UserGuid
-        //{
-        //    get
-        //    {
-        //        return this.ID;
-        //        //if (Guid.TryParse(this.ID, out Guid tempGuid))
-        //        //{
-        //        //    return tempGuid;
-        //        //}
-        //        //else
-        //        //{
-        //        //    return Guid.Empty;
-        //        //}
-        //    }
-        //}
+        #region Custom Property
+        public UserLevelEnum Level
+        {
+            get
+            {
+                return (UserLevelEnum)UserLevel;
+            }
+        }
+        #endregion
     }
 }

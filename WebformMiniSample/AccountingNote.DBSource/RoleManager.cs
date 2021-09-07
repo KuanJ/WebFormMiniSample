@@ -11,7 +11,7 @@ namespace AccountingNote.DBSource
     {
         /// <summary> 取得所有角色清單 </summary>
         /// <returns></returns>
-        public static List<Roles> GetRoleList()
+        public static List<Role> GetRoleList()
         {
             try
             {
@@ -32,7 +32,7 @@ namespace AccountingNote.DBSource
         /// <summary> 用名稱取得角色 </summary>
         /// <param name="roleName"></param>
         /// <returns></returns>
-        public static Roles GetRoleByName(string roleName)
+        public static Role GetRoleByName(string roleName)
         {
             try
             {
@@ -57,7 +57,7 @@ namespace AccountingNote.DBSource
         /// <summary> 用 id 取得角色 </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        public static Roles GetRole(Guid id)
+        public static Role GetRole(Guid id)
         {
             try
             {
@@ -102,15 +102,45 @@ namespace AccountingNote.DBSource
 
                     foreach (Guid roleID in roleIDs)
                     {
-                        UserRoles ur = new UserRoles()
+                        UserRole ur = new UserRole()
                         {
                             ID = Guid.NewGuid(),
                             UserInfoID = userID,
                             RoleID = roleID,
-                            IsGrant =true
+                            IsGrant = true
                         };
 
                         context.UserRoles.Add(ur);
+                    }
+
+                    context.SaveChanges();
+                }
+            }
+            catch (Exception ex)
+            {
+                Logger.WriteLog(ex);
+            }
+        }
+
+        public static void DeleteUserRole(Guid userID, Guid roleID)
+        {
+            try
+            {
+                using (ContextModel context = new ContextModel())
+                {
+                    var currentRole =
+                       (from item in context.UserRoles
+                        where
+                            item.UserInfoID == userID &&
+                            item.RoleID == roleID
+                        select item).ToList();
+
+                    if (currentRole.Any())
+                    {
+                        foreach(var dr in currentRole)
+                        {
+                            context.UserRoles.Remove(dr);
+                        }
                     }
 
                     context.SaveChanges();
@@ -157,26 +187,49 @@ namespace AccountingNote.DBSource
                     //if (roleIDs.Length != currentRole.Count)
                     //    return false;
 
-                        //// 如果授權的角色和需要的角色不同，回傳否
-                        //if (roleIDs.Except(currentRole.Select(obj => obj.RoleID)).Any())
-                        //    return false;
+                    //// 如果授權的角色和需要的角色不同，回傳否
+                    //if (roleIDs.Except(currentRole.Select(obj => obj.RoleID)).Any())
+                    //    return false;
 
-                        //// 如果被禁用，回傳否
-                        //foreach(UserRoles userRoles in currentRole)
-                        //{
-                        //    if (!userRoles.IsGrant.HasValue)
-                        //        return false;
-                        //    else if (!userRoles.IsGrant.Value)
-                        //        return false;
-                        //}
+                    //// 如果被禁用，回傳否
+                    //foreach(UserRoles userRoles in currentRole)
+                    //{
+                    //    if (!userRoles.IsGrant.HasValue)
+                    //        return false;
+                    //    else if (!userRoles.IsGrant.Value)
+                    //        return false;
+                    //}
 
-                    return true;
+                    //return true;
                 }
             }
             catch (Exception ex)
             {
                 Logger.WriteLog(ex);
                 throw;
+            }
+        }
+
+        public static List<Role> GetUserRoleList(Guid userID)
+        {
+            try
+            {
+                using (ContextModel context = new ContextModel())
+                {
+                    var currentRole =
+                       (from item in context.UserRoles
+                        join role in context.Roles on item.RoleID equals role.ID
+                        where
+                        item.UserInfoID == userID
+                        select role).ToList();
+
+                    return currentRole;
+                }
+            }
+            catch (Exception ex)
+            {
+                Logger.WriteLog(ex);
+                return null;
             }
         }
     }

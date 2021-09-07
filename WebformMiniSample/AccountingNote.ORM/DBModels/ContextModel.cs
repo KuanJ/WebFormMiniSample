@@ -13,9 +13,9 @@ namespace AccountingNote.ORM.DBModels
         }
 
         public virtual DbSet<Accounting> Accountings { get; set; }
-        public virtual DbSet<Roles> Roles { get; set; }
+        public virtual DbSet<Role> Roles { get; set; }
         public virtual DbSet<UserInfo> UserInfoes { get; set; }
-        public virtual DbSet<UserRoles> UserRoles { get; set; }
+        public virtual DbSet<UserRole> UserRoles { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
@@ -23,14 +23,13 @@ namespace AccountingNote.ORM.DBModels
                 .Property(e => e.CoverImage)
                 .IsUnicode(false);
 
-            modelBuilder.Entity<Roles>()
+            modelBuilder.Entity<Role>()
                 .Property(e => e.RoleName)
                 .IsUnicode(false);
 
-            modelBuilder.Entity<Roles>()
+            modelBuilder.Entity<Role>()
                 .HasMany(e => e.UserRoles)
-                .WithRequired(e => e.Roles)
-                .HasForeignKey(e => e.RoleID)
+                .WithRequired(e => e.Role)
                 .WillCascadeOnDelete(false);
 
             modelBuilder.Entity<UserInfo>()
@@ -45,10 +44,10 @@ namespace AccountingNote.ORM.DBModels
                 .Property(e => e.MobilePhone)
                 .IsUnicode(false);
 
-            modelBuilder.Entity<UserRoles>()
-                .HasMany(e => e.UserRoles1)
-                .WithRequired(e => e.UserRoles2)
-                .HasForeignKey(e => e.UserInfoID);
+            modelBuilder.Entity<UserInfo>()
+                .HasMany(e => e.UserRoles)
+                .WithRequired(e => e.UserInfo)
+                .WillCascadeOnDelete(false);
         }
     }
 }

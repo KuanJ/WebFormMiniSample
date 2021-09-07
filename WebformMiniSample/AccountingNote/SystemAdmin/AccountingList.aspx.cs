@@ -31,11 +31,21 @@ namespace AccountingNote.SystemAdmin
                 return;
             }
 
-            // 檢查是否已授權
-            if (!AuthManager.IsGrant(currentUser.ID, new string[] { StaticText.RoleName_Announting_FinanceClerk }))
+            if (currentUser.Level == UserLevelEnum.Regular)
             {
-                Response.Redirect("UserInfo.aspx");
-                return;
+
+                // 檢查是否已授權
+
+                if (!this.CanRead())
+                {
+                    Response.Redirect("UserInfo.aspx");
+                    return;
+                }
+
+                if (!this.CanEdit())
+                {
+                    this.btnCreate.Visible = false;
+                }
             }
 
             // read accounting data
@@ -60,7 +70,39 @@ namespace AccountingNote.SystemAdmin
             }
         }
 
+        private bool CanRead()
+        {
+            var currentUser = AuthManager.GetCurrentUser();
 
+            var roles =
+                new string[]
+                {
+                    StaticText.RoleName_Announting_FinanceClerk,
+                    StaticText.RoleName_Announting_FinanceAdmin,
+                    StaticText.RoleName_Announting_FinanceReviewer,
+                };
+            if (!AuthManager.IsGrant(currentUser.ID, roles))
+                return true;
+            else
+                return false;
+        }
+
+        private bool CanEdit()
+        {
+            var currentUser = AuthManager.GetCurrentUser();
+
+            // 檢查是否已授權
+            var roles =
+                new string[]
+                {
+                    StaticText.RoleName_Announting_FinanceClerk,
+                    StaticText.RoleName_Announting_FinanceAdmin,
+                };
+            if (!AuthManager.IsGrant(currentUser.ID, roles))
+                return true;
+            else
+                return false;
+        }
         private int GetCurrentPage()
         {
             string pageText = Request.QueryString["Page"];

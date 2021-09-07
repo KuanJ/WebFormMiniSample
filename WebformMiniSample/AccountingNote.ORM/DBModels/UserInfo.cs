@@ -9,6 +9,12 @@ namespace AccountingNote.ORM.DBModels
     [Table("UserInfo")]
     public partial class UserInfo
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public UserInfo()
+        {
+            UserRoles = new HashSet<UserRole>();
+        }
+
         public Guid ID { get; set; }
 
         [Required]
@@ -30,5 +36,10 @@ namespace AccountingNote.ORM.DBModels
         [Required]
         [StringLength(20)]
         public string MobilePhone { get; set; }
+
+        public int UserLevel { get; set; }
+
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<UserRole> UserRoles { get; set; }
     }
 }

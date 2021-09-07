@@ -6,12 +6,12 @@ namespace AccountingNote.ORM.DBModels
     using System.ComponentModel.DataAnnotations.Schema;
     using System.Data.Entity.Spatial;
 
-    public partial class Roles
+    public partial class Role
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Roles()
+        public Role()
         {
-            UserRoles = new HashSet<UserRoles>();
+            UserRoles = new HashSet<UserRole>();
         }
 
         public Guid ID { get; set; }
@@ -21,6 +21,6 @@ namespace AccountingNote.ORM.DBModels
         public string RoleName { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<UserRoles> UserRoles { get; set; }
+        public virtual ICollection<UserRole> UserRoles { get; set; }
     }
 }

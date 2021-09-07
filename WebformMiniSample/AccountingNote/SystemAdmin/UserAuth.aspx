@@ -41,10 +41,12 @@
                         <tr>
                             <th>Roles</th>
                             <td>
-                                <asp:Repeater ID="rptRoleList" runat="server">
+                                <asp:Repeater ID="rptRoleList" runat="server" OnItemCommand="rptRoleList_ItemCommand">
                                     <ItemTemplate>
-                                        <%# Eval("RoleName") %>
-                                        <asp:Button runat="server" CommandName="DeleteRole" CommandArgument='<%# Eval("ID") %>' Text="Remove" />
+                                        <div>
+                                            <%# Eval("RoleName") %>
+                                            <asp:Button runat="server" CommandName="DeleteRole" CommandArgument='<%# Eval("ID") %>' Text="Remove" />
+                                        </div>
                                     </ItemTemplate>
                                 </asp:Repeater>
                             </td>
