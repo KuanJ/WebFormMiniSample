@@ -93,5 +93,36 @@ namespace AccountingNote.Auth
                 return false;
             }
         }
+
+        public static void MapUserAndRole(Guid userID, Guid[] roleIDs)
+        {
+            RoleManager.MappingUserAndRole(userID, roleIDs);
+        }
+        /// <summary> 是否被授權 </summary>
+        /// <param name="userID"></param>
+        /// <param name="roleIDs"></param>
+        /// <returns></returns>
+        public static bool IsGrant(Guid userID, Guid[] roleIDs)
+        {
+            return RoleManager.IsGrant(userID, roleIDs);
+        }
+
+        /// <summary> 是否被授權 </summary>
+        /// <param name="userID"></param>
+        /// <param name="roleIDs"></param>
+        /// <returns></returns>
+        public static bool IsGrant(Guid userID, string[] roleNames)
+        {
+            List<Guid> roleIDs = new List<Guid>();
+
+            foreach(string roleName in roleNames)
+            {
+                var role = RoleManager.GetRoleByName(roleName);
+                if (role == null)
+                    continue;
+                roleIDs.Add(role.ID);
+            }
+            return RoleManager.IsGrant(userID, roleIDs.ToArray());
+        }
     }
 }

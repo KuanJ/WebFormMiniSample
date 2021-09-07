@@ -18,7 +18,7 @@ namespace AccountingNote.DBSource
             {
                 using (ContextModel context = new ContextModel())
                 {
-                    var query = context.UserInfo;
+                    var query = context.UserInfoes;
                     var list = query.ToList();
                     return list;
                 }
@@ -36,7 +36,7 @@ namespace AccountingNote.DBSource
                 using (ContextModel context = new ContextModel())
                 {
                     var query =
-                        (from item in context.UserInfo
+                        (from item in context.UserInfoes
                          where item.Account == account
                          select item);
 
@@ -51,5 +51,28 @@ namespace AccountingNote.DBSource
             }
         }
 
+        public static UserInfo GetUserInfo(Guid id)
+        {
+            try
+            {
+                using (ContextModel context = new ContextModel())
+                {
+                    var query =
+                    (from item in context.UserInfoes
+                     where item.ID == id
+                     select item);
+
+
+
+                    var obj = query.FirstOrDefault();
+                    return obj;
+                }
+            }
+            catch (Exception ex)
+            {
+                Logger.WriteLog(ex);
+                return null;
+            }
+        }
     }
 }

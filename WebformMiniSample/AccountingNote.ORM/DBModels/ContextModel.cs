@@ -12,9 +12,9 @@ namespace AccountingNote.ORM.DBModels
         {
         }
 
-        public virtual DbSet<Accounting> Accounting { get; set; }
+        public virtual DbSet<Accounting> Accountings { get; set; }
         public virtual DbSet<Roles> Roles { get; set; }
-        public virtual DbSet<UserInfo> UserInfo { get; set; }
+        public virtual DbSet<UserInfo> UserInfoes { get; set; }
         public virtual DbSet<UserRoles> UserRoles { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)

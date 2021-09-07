@@ -1,5 +1,6 @@
 ﻿using AccountingNote.Auth;
 using AccountingNote.DBSource;
+using AccountingNote.Models;
 using AccountingNote.ORM.DBModels;
 using System;
 using System.Collections.Generic;
@@ -23,9 +24,6 @@ namespace AccountingNote.SystemAdmin
 
             var currentUser = AuthManager.GetCurrentUser();
 
-            //string account = this.Session["UserLoginInfo"] as string;
-            //var dr = UserInfoManager.GetUserInfoByAccount(account);
-
             if (currentUser == null)                 //如果帳號不存在，導至登入頁
             {
                 this.Session["UserLoginInfo"] = null;
@@ -33,8 +31,14 @@ namespace AccountingNote.SystemAdmin
                 return;
             }
 
+            // 檢查是否已授權
+            if (!AuthManager.IsGrant(currentUser.ID, new string[] { StaticText.RoleName_Announting_FinanceClerk }))
+            {
+                Response.Redirect("UserInfo.aspx");
+                return;
+            }
+
             // read accounting data
-            //var dt = AccountingManager.GetAccountingList(currentUser.ID);
             var list = AccountingManager.GetAccountingList(currentUser.ID);
 
             if (list.Count > 0)  // check is empty data
